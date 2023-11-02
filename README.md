@@ -1,4 +1,4 @@
-# nixupdate
+# shenixy
 Original by winrarick1
 
 Fork by SysFugy
