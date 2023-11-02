@@ -1,29 +1,32 @@
 import os
-from sys import platform
+import sys
 
-if platform == "darwin"
-  input("Error: System not supported!")
-if platform == "win32":
-  input("Error: System not supported!")
+def print_banner():
+    banner = """
+    ███╗░░██╗██╗██╗░░██╗██╗░░░██╗██████╗░██████╗░░█████╗░████████╗███████╗
+    █████╗░██║██║╚██╗██╔╝██║░░░██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔════╝
+    ██╔██╗██║██║░╚███╔╝░██║░░░██║██████╔╝██║░░██║███████║░░░██║░░░█████╗░░
+    ██║╚████║██║░██╔██╗░██║░░░██║██╔═══╝░██║░░██║██╔══██║░░░██║░░░██╔══╝░░
+    ██║░╚███║██║██╔╝╚██╗╚██████╔╝██║░░░░░██████╔╝██║░░██║░░░██║░░░███████╗
+    ╚═╝░░╚══╝╚═╝╚═╝░░╚═╝░╚═════╝░╚═╝░░░░░╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚══════╝
+    """
+    print(banner)
 
-def clear():
-  os.system("clear")
-    
-def nixupdate():
-  clear()
-  print("███╗░░██╗██╗██╗░░██╗██╗░░░██╗██████╗░██████╗░░█████╗░████████╗███████╗")
-  print("████╗░██║██║╚██╗██╔╝██║░░░██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔════╝")
-  print("██╔██╗██║██║░╚███╔╝░██║░░░██║██████╔╝██║░░██║███████║░░░██║░░░█████╗░░")
-  print("██║╚████║██║░██╔██╗░██║░░░██║██╔═══╝░██║░░██║██╔══██║░░░██║░░░██╔══╝░░")
-  print("██║░╚███║██║██╔╝╚██╗╚██████╔╝██║░░░░░██████╔╝██║░░██║░░░██║░░░███████╗")
-  print("╚═╝░░╚══╝╚═╝╚═╝░░╚═╝░╚═════╝░╚═╝░░░░░╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚══════╝")
-  category_of_update = input("\nUpdate 'packages' or 'channels' (1, 2)? ")
-  if category_of_update == "packages" or category_of_update == "package" or category_of_update == "1":
-    os.system("nix-env -u")
-  elif category_of_update == "channels" or category_of_update == "channel" or category_of_update == "2":
-    os.system("nix-channel --update")
-  else:
-    input("Error: Command not found!")
+def nix_update(category):
+    update_actions = {
+        "1": lambda: os.system("nix-env -u"),
+        "2": lambda: os.system("nix-channel --update")
+    }
+    update_actions.get(category, lambda: input("Error: Command not found!"))()
 
-while True:
-  nixupdate()
+def main():
+    if sys.platform != "linux":
+        input("Error: System not supported!")
+    else:
+        while True:
+            os.system("clear")
+            print_banner()
+            nix_update(input("\nUpdate 'packages' or 'channels' (1, 2)? ").lower())
+
+if __name__ == "__main__":
+    main()
